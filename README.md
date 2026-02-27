@@ -4,37 +4,38 @@
 
 This repository provides a complete benchmarking and optimization pipeline for YOLOv5. It includes:
 
-- PyTorch evaluation on coco128
-- ONNX export and inference benchmarking
-- ONNX optimization comparison
-- Automated benchmark report generation
-- Cross-platform automation (Windows and Linux)
+- PyTorch evaluation on coco128  
+- ONNX export and runtime benchmarking  
+- ONNX optimization comparison  
+- Automated benchmark report generation  
+- Cross-platform automation (Windows and Linux)  
 
-The entire workflow can be executed using a single command.
+The full workflow can be executed using a single command.
 
 ---
 
 ## Model Details
 
-Model: YOLOv5s  
-Input Size: 640x640  
-Dataset: coco128 (subset of COCO)
+- Model: YOLOv5s  
+- Input Size: 640x640  
+- Dataset: coco128 (subset of COCO)
 
 ### Evaluation Metrics
 
-- mAP@0.5 — Mean Average Precision at IoU 0.5  
-- mAP@0.5:0.95 — COCO standard metric  
-- Precision — TP / (TP + FP)  
-- Recall — TP / (TP + FN)  
-- F1 Score — Harmonic mean of precision and recall  
-- Latency — Mean, P50, P95, P99 (ms)  
-- FPS — Frames per second  
-- ONNX Speedup — Relative runtime improvement  
+- mAP@0.5  
+- mAP@0.5:0.95  
+- Precision  
+- Recall  
+- F1 Score  
+- Latency (Mean, P50, P95, P99 in ms)  
+- FPS  
+- ONNX Speedup  
 
 ---
 
 ## Repository Structure
 
+```
 project/
 │
 ├── src/
@@ -52,6 +53,7 @@ project/
 ├── run_pipeline.sh
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
@@ -62,9 +64,11 @@ project/
 - Windows PowerShell (for Windows users)
 - Bash (for Linux/Mac users)
 
-All dependencies are listed in:
+All Python dependencies are listed in:
 
+```
 requirements.txt
+```
 
 ---
 
@@ -72,45 +76,57 @@ requirements.txt
 
 ## Windows
 
-### Step 1: Clone Repository
+### 1. Clone Repository
 
-git clone https://github.com/kar-ish-ma/yolo_v5-.git  
+```powershell
+git clone https://github.com/kar-ish-ma/yolo_v5-.git
 cd yolo_v5-
+```
 
-### Step 2: Allow Script Execution (One-time per session)
+### 2. Allow Script Execution (One-time per session)
 
+```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
-### Step 3: Run Full Pipeline
+### 3. Run Full Pipeline
 
+```powershell
 .\setup_and_run.ps1
+```
 
-This automatically:
+This will automatically:
 
-1. Creates virtual environment  
-2. Installs dependencies  
-3. Exports ONNX model  
-4. Evaluates PyTorch model  
-5. Runs ONNX optimization benchmark  
-6. Generates benchmark report  
-7. Runs visualization inference  
+1. Create virtual environment  
+2. Install dependencies  
+3. Export ONNX model  
+4. Evaluate PyTorch model  
+5. Run ONNX optimization benchmark  
+6. Generate benchmark report  
+7. Run visualization inference  
 
 ---
 
 ## Linux / Mac
 
-### Step 1: Clone Repository
+### 1. Clone Repository
 
-git clone https://github.com/kar-ish-ma/yolo_v5-.git  
+```bash
+git clone https://github.com/kar-ish-ma/yolo_v5-.git
 cd yolo_v5-
+```
 
-### Step 2: Make Script Executable
+### 2. Make Script Executable
 
+```bash
 chmod +x run_pipeline.sh
+```
 
-### Step 3: Run Full Pipeline
+### 3. Run Full Pipeline
 
+```bash
 ./run_pipeline.sh
+```
 
 ---
 
@@ -120,37 +136,53 @@ chmod +x run_pipeline.sh
 
 Linux / Mac:
 
-python3 -m venv .venv  
-source .venv/bin/activate  
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
 Windows:
 
-python -m venv .venv  
-.\.venv\Scripts\Activate.ps1  
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
 ## Install Dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
 ## Export ONNX
 
+```bash
 python exports.py
+```
 
 ## Evaluate PyTorch
 
+```bash
 python evaluate_pytorch.py
+```
 
 ## Run ONNX Benchmark
 
+```bash
 python optimize_onnx.py
+```
 
 ## Generate Report
 
+```bash
 python generate_baseline_report.py
+```
 
 ## Run Visualization Inference
 
+```bash
 python src/inference/infer.py --weights yolov5s.pt --source src/data/images/bus.jpg
+```
 
 ---
 
@@ -158,6 +190,7 @@ python src/inference/infer.py --weights yolov5s.pt --source src/data/images/bus.
 
 After execution:
 
+```
 results/
  ├── pytorch_metrics.json
  ├── onnx_metrics.json
@@ -166,11 +199,13 @@ results/
 
 docs/
  └── baseline_metrics.txt
+```
 
 ---
 
 # Example Benchmark Output
 
+```
 ============================================================
 BENCHMARK RESULTS
 ============================================================
@@ -180,53 +215,67 @@ Baseline                  98.63        10.14      1.00x
 Basic Optimizations       117.12       8.54       0.84x
 All Optimizations         99.18        10.08      0.99x
 Extended Optimizations    105.97       9.44       0.93x
+```
 
 ---
 
 # Benchmarking Methodology
 
-PyTorch:
-- Validation performed on coco128
-- Accuracy metrics computed using Ultralytics API
-- Latency measured over multiple forward passes
+## PyTorch
 
-ONNX:
-- Model exported from PyTorch
-- Graph optimization enabled (ORT_ENABLE_ALL)
-- CPU execution provider
-- Latency averaged across multiple runs
-- Speedup computed relative to baseline ONNX
+- Validation performed on coco128  
+- Accuracy metrics computed using Ultralytics API  
+- Latency measured over multiple forward passes  
 
-Accuracy remains identical between PyTorch and ONNX since weights are unchanged.
-ONNX comparison focuses on runtime performance.
+## ONNX
+
+- Model exported from PyTorch  
+- Graph optimization enabled (ORT_ENABLE_ALL)  
+- CPU execution provider  
+- Latency averaged across multiple runs  
+- Speedup computed relative to baseline ONNX  
+
+Accuracy remains identical between PyTorch and ONNX since weights are unchanged. ONNX comparison focuses on runtime performance.
 
 ---
 
 # Common Issues
 
-ModuleNotFoundError:
-- Ensure virtual environment is activated
-- Re-run pip install -r requirements.txt
+## ModuleNotFoundError
 
-Report Shows None Values:
-- Ensure evaluate_pytorch.py ran successfully before generating the report
+Ensure virtual environment is activated and dependencies are installed:
 
-PowerShell Script Blocked:
+```
+pip install -r requirements.txt
+```
+
+## Report Shows None Values
+
+Ensure `evaluate_pytorch.py` ran successfully before generating the report.
+
+## PowerShell Script Blocked
+
+```
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
 ---
 
 # Updating the Repository
 
-git add .  
-git commit -m "Describe your changes"  
-git push  
+After making changes:
+
+```bash
+git add .
+git commit -m "Describe your changes"
+git push
+```
 
 ---
 
 # Notes
 
-- Designed for reproducible benchmarking
-- Cross-platform compatible
-- Automation prevents metric overwriting
-- Suitable for academic evaluation and optimization experiments
+- Designed for reproducible benchmarking  
+- Cross-platform compatible  
+- Automation prevents metric overwriting  
+- Suitable for academic evaluation and optimization experiments  
